@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Primetrade Auth Test</title>
+</head>
+<body style="font-family: sans-serif; padding: 20px;">
+    <h2>Register User</h2>
+    <input type="text" id="regUser" placeholder="Username">
+    <input type="password" id="regPass" placeholder="Password">
+    <button onclick="auth('register')">Register</button>
+
+    <h2>Login</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+    <button onclick="auth('login')">Login</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        async function auth(type) {
+            const user = document.getElementById(type === 'register' ? 'regUser' : 'loginUser').value;
+            const pass = document.getElementById(type === 'register' ? 'regPass' : 'loginPass').value;
+            
+            const response = await fetch(`http://localhost:5000/api/v1/auth/${type}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: user, password: pass })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(data);
+        }
+    </script>
+</body>
+</html>
